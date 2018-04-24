@@ -71,6 +71,7 @@ set expandtab
 set smarttab
 " 显示行号
 set number
+set relativenumber
 " moving numbers :) relativenumber
 " https://jeffkreeftmeijer.com/vim-number/
 function! NumberToggle()
