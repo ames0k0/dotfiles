@@ -1,0 +1,9 @@
+# PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\][kira@-築城院 真鍳]\[\033[34m\]:\[\033[01;95m\]\W\[\033[00m\]\n\$ '
+
+## etc/envirement --
+# WORK="path to workspace"
+
+## export / unset --
+# export WORK="path to workspace"
+# cd $WORK
+# unset WORK
