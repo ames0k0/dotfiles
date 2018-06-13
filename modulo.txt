@@ -1,24 +1,24 @@
-tqmd
-colorama
-pygame
-Cython
-keras
-scikit-learn
-tensorflow
-matplotlib
-numpy
-pandas
-seaborn
-virtualenv
-flask
-flask-admin
-flask-sqlalchemy
-django
-requests
-bs4
-img2pdf
-pdir2
-selenium
-pydub
-nltk
-gensim
+bs4:        web source parse
+tqdm:       python progress bar
+pdir2:      pretty dir
+img2pdf:    convert img to pdf file
+requests:   get post
+colorama:   humans color
+selenium:   webdriver
+virtualenv: (py2), (py3) << modulo
+# pygame
+# Cython
+# keras
+# scikit-learn
+# tensorflow
+# matplotlib
+# numpy
+# pandas
+# seaborn
+# flask
+# flask-admin
+# flask-sqlalchemy
+# django
+# pydub:      audio thing
+# nltk
+# gensim

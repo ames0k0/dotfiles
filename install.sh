@@ -5,27 +5,17 @@
 for i in $@
 do
     if [ $i == '-ti' ]; then
-        git clone https://github.com/gpakosz/.tmux.git
-        ln -s -f .tmux/.tmux.conf
-        cp .tmux/.tmux.conf.local .
-    elif [ $i == '-tc' ]; then
-        cp -f .tmux.conf ~/
-        cp -f .tmux.conf.local ~/
+        # https://github.com/gpakosz/.tmux.git
+        cp -f .tmux/.tmux.conf ~/
+        cp -f .tmux/.tmux.conf.local ~/
     elif [ $i == '-vi' ]; then
-        wget -qO- https://raw.github.com/ma6174/vim/master/setup.sh | sh -x
+        python check_vim.py
     elif [ $i == '-vc' ]; then
         cp -f .vimrc ~/
-    elif [ $i == '-nt' ]; then
-        export PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\][kira@-築城院 真鍳]\[\033[34m\]:\[\033[01;95m\]\W\[\033[00m\]\n\$ '
-    elif [ $i == '-pi' ]; then
-        sudo -H pip3 install -r modulo.txt
+        cp -f pyflakes.vim ~/.vim/ftplugin/python/
+    elif [ $i == '-pip' ]; then
+        python pipup.py '-2'
+    elif [ $i == '-pip3' ]; then
+        python3 pipup.py '-3'
     fi
 done
-
-## etc/envirement --
-# WORK="path to workspace"
-
-## export / unset --
-# export WORK="path to workspace"
-# cd $WORK
-# unset WORK
