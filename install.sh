@@ -6,8 +6,8 @@ for i in $@
 do
     if [ $i == '-ti' ]; then
         # https://github.com/gpakosz/.tmux.git
-        cp -f .tmux/.tmux.conf ~/
-        cp -f .tmux/.tmux.conf.local ~/
+        cp -f .tmux.conf ~/
+        cp -f .tmux.conf.local ~/
     elif [ $i == '-vi' ]; then
         python check_vim.py
     elif [ $i == '-vc' ]; then
