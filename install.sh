@@ -6,16 +6,15 @@ for i in $@
 do
     if [ $i == '-ti' ]; then
         # https://github.com/gpakosz/.tmux.git
-        cp -f .tmux.conf ~/
-        cp -f .tmux.conf.local ~/
+        cp -f FILES/.tmux.conf ~/
     elif [ $i == '-vi' ]; then
-        python check_vim.py
+        python3 FILES/check_vim.py
     elif [ $i == '-vc' ]; then
-        cp -f .vimrc ~/
-        cp -f pyflakes.vim ~/.vim/ftplugin/python/
+        cp -f FILES/.vimrc ~/
+        cp -f FILES/pyflakes.vim ~/.vim/ftplugin/python/
     elif [ $i == '-pip' ]; then
-        python pipup.py '-2'
+        python FILES/pipup.py '-2'
     elif [ $i == '-pip3' ]; then
-        python3 pipup.py '-3'
+        python3 FILES/pipup.py '-3'
     fi
 done

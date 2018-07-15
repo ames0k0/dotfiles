@@ -14,11 +14,7 @@ vim = 'wget -qO- https://raw.github.com/ma6174/vim/master/setup.sh | sh -x'
 
 
 def func(pth):
-    """
-    nah install vim if exists
-    """
     if exists(pth):
-        # python2
         kk = raw_input('Vim exists!, reinstall vim ?: ')
         if kk.lower() == 'y':
             system(vim)

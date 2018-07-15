@@ -1,0 +1,9 @@
+# PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\][kira@-築城院 真鍳]\[\033[34m\]:\[\033[01;95m\]\W\[\033[00m\]\n\$ '
+
+alias S='sudo rm -R'
+alias s='rm -R'
+alias gc='git clone'
+alias gcm='git commit -m'
+alias ins='sudo apt-get install'
+alias tns='tmux new-session -s'
+alias tat='tmux attach -t'
