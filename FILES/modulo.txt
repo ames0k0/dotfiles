@@ -6,19 +6,23 @@ requests:   get post
 colorama:   humans color
 selenium:   webdriver
 virtualenv: (py2), (py3) << modulo
-# pygame
-# Cython
-# keras
-# scikit-learn
-# tensorflow
-# matplotlib
-# numpy
-# pandas
-# seaborn
-# flask
-# flask-admin
-# flask-sqlalchemy
-# django
-# pydub:      audio thing
-# nltk
-# gensim
+pyinstaller
+Cython
+pygame
+keras
+scikit-learn
+tensorflow
+matplotlib
+numpy
+pandas
+seaborn
+flask
+flask-admin
+flask-sqlalchemy
+django
+pydub:      audio thing
+nltk
+gensim
+xgboost
+scrapy
+fake_useragent

@@ -20,4 +20,4 @@ def pips(ver):
         else:
             system('sudo -H pip3 install %s' % module)
 
-pips(arg[1])
+pips(argv[1])

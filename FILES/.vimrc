@@ -435,7 +435,7 @@ call vundle#rc()
 Bundle 'gmarik/vundle'
 Bundle 'tpope/vim-pathogen'
 Bundle 'https://github.com/benmills/vimux'
-Bundle 'https://github.com/tpope/vim-fugitive'
+" Bundle 'https://github.com/tpope/vim-fugitive'
 Bundle 'https://github.com/epeli/slimux'
 Bundle 'https://github.com/terryma/vim-multiple-cursors'
 let g:multi_cursor_use_default_mapping=0
