@@ -4,7 +4,6 @@ pdir2:      pretty dir
 img2pdf:    convert img to pdf file
 requests:   get post
 colorama:   humans color
-selenium:   webdriver
 virtualenv: (py2), (py3) << modulo
 pyinstaller
 Cython
