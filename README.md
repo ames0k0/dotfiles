@@ -1,4 +1,7 @@
 ```
+clone path: ~/Desktop/
+
+
 vim default Leader -> '\'
 let mapleader=','
 ```

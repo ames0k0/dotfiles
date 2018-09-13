@@ -4,13 +4,14 @@
 # __author__ = 'kira@-築城院 真鍳'
 # __author__ = 'Tanya von Degurechaff'
 
-from os import getcwd, system #
-from sys import argv #--------#
-from os.path import exists #--#
+from os import getcwd, system #-----#
+from sys import argv #--------------#
+from os.path import exists, dirname #
 
 
 def check_vim(pth):
     vim = 'wget -qO- https://raw.github.com/ma6174/vim/master/setup.sh | sh -x'
+    pth += '.vim/ftplugin/'
 
     if exists(pth):
         kk = input('Vim exists!, reinstall vim? [y/n]: ')
@@ -22,17 +23,17 @@ def check_vim(pth):
         system('reset')
 
 
-def remove_error():
-    # JUST ADD -> "
-    FILE = '~/.vim/ftplugin/python/pyflakes.vim'
+def remove_error(pth):
+    # JUST ADD -> " (comment 28th line)
+    pth += '.vim/ftplugin/python/pyflakes.vim'
     repl = '        " {}\n'
-    if exists(FILE):
-        with open(FILE, 'r') as f:
+    if exists(pth):
+        with open(pth, 'r') as f:
             err = f.readlines()
 
         err[27] = repl.format(" ".join(err[27].split()))
 
-        with open(FILE, 'w') as f:
+        with open(pth, 'w') as f:
             f.write("".join(err))
     else:
         print('file is not exists')
@@ -52,20 +53,14 @@ def pips(ver):
 
 
 if __name__ == "__main__":
+    # rpath -> /home/user/
+    # system('cd ~'), exists('~') <- NOT WORKING
+    rpath = "{}/".format(dirname(dirname(getcwd())))
     if argv[1] == '-vi':
-        # ~/.vim/ftplugin/ <- NOT WORKING
-        kali = '/root/'
-        ubuntu = '/home'
-        realp = getcwd()
-        vpath = '.vim/ftplugin/'
-        vpp = realp.split('/')
-        if realp.startswith(ubuntu):
-            check_vim('/{}/{}/{}'.format(vpp[1], vpp[2], vpath))
-        elif realp.startswith(kali):
-            check_vim('/{}/{}'.format(vpp[1], vpath))
+        check_vim(rpath)
     elif argv[1] == '-p2':
         pips('-2')
     elif argv[1] == '-p3':
         pips('-3')
     elif argv[1] == '-vc':
-        remove_error()
+        remove_error(rpath)

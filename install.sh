@@ -5,7 +5,7 @@
 
 for i in $@
 do
-    if [ $i == '-ti' ]; then
+    if [ $i == '-tc' ]; then
         cp -f FILES/.tmux.conf ~/
     elif [ $i == '-vi' ]; then
         python3 FILES/pyfile.py $i
