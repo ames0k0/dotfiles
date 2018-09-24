@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# __author__ = 'kira@-築城院 真鍳'
-# __author__ = 'Tanya von Degurechaff'
+__author__ = {
+    'kira@-築城院 真鍳',
+    'Tanya von Degurechaff'
+}
 
-from os import getcwd, system #-----#
+from os import environ, system #----#
 from sys import argv #--------------#
-from os.path import exists, dirname #
+from os.path import exists #--------#
 
 
 def check_vim(pth):
@@ -53,9 +55,7 @@ def pips(ver):
 
 
 if __name__ == "__main__":
-    # rpath -> /home/user/
-    # system('cd ~'), exists('~') <- NOT WORKING
-    rpath = "{}/".format(dirname(dirname(getcwd())))
+    rpath = "{}/".format(environ['HOME'])
     if argv[1] == '-vi':
         check_vim(rpath)
     elif argv[1] == '-p2':

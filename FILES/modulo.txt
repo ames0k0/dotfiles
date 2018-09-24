@@ -5,6 +5,7 @@ img2pdf:    convert img to pdf file
 requests:   get post
 colorama:   humans color
 virtualenv: (py2), (py3) << modulo
+prettytable
 pyinstaller
 Cython
 pygame

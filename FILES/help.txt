@@ -7,6 +7,19 @@ case $(uname -a) in
 esac
 
 
+# to i3 conf    | mod_key!=Alt (ubuntu using alt for 'scroll off/on' thing)
+# https://www.youtube.com/watch?v=8-S0cWnLBKg
+#     Media and volume keys snippet
+#     https://faq.i3wm.org/question/3747/enabling-multimedia-keys/?answer=3759#post-id-3759
+#
+# https://askubuntu.com/questions
+#     /149054/how-to-change-lcd-brightness-from-command-line-or-via-script
+#
+# function chl() {
+#     echo $1 > /sys/class/backlight/intel_backlight/brightness
+# }
+
+
 alias S='sudo rm -R'
 alias s='rm -R'
 alias gc='git clone'
