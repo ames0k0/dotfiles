@@ -54,6 +54,18 @@ def pips(ver):
             system('sudo -H pip3 install %s' % module)
 
 
+def move_aliases():
+    aliases_for = "~/.zshrc"
+    with_message = """if [ -f ~/.bash_aliases ]; then\n. ~/.bash_aliases\nfi"""
+    aliases = "~/.zsh_aliases"
+
+    # TODO:
+        # add with_message -> aliases_for
+        # mv aliases ~
+
+    # or just use zshrc plugins
+
+
 if __name__ == "__main__":
     rpath = "{}/".format(environ['HOME'])
     if argv[1] == '-vi':
