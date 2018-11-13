@@ -1,0 +1,20 @@
+# PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\][kira@-築城院 真鍳]\[\033[34m\]:\[\033[01;95m\]\W\[\033[00m\]\n\$ '
+
+
+# https://github.com/rupa/z/issues/230
+case $(uname -a) in
+    *Microsoft*) unsetopt BG_NICE ;;
+esac
+
+
+# to i3 conf    | mod_key!=Alt (ubuntu using alt for 'scroll off/on' thing)
+# https://www.youtube.com/watch?v=8-S0cWnLBKg
+#     Media and volume keys snippet
+#     https://faq.i3wm.org/question/3747/enabling-multimedia-keys/?answer=3759#post-id-3759
+#
+# https://askubuntu.com/questions
+#     /149054/how-to-change-lcd-brightness-from-command-line-or-via-script
+#
+# function chl() {
+#     echo $1 > /sys/class/backlight/intel_backlight/brightness
+# }
