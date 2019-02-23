@@ -3,18 +3,6 @@ alias S='sudo rm -R'
 alias ll='ls -l'
 alias ins='sudo apt-get install'
 
-alias tns='tmux new-session -s'
-alias tat='tmux attach -t'
-alias tls='tmux list-sessions'
-alias ttt='tmux attach'
-alias tks='tmux kill-session -t'
-
-alias gitc='git clone'
-alias gits='git status'
-alias gitl='git log'
-alias gita='git add --all'
-alias gitm='git commit -m'
-
 alias kv='vim ~/.vimrc'
 alias kz='vim ~/.zshrc'
 alias kb='vim ~/.bashrc'

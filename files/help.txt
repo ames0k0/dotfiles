@@ -18,3 +18,17 @@ esac
 # function chl() {
 #     echo $1 > /sys/class/backlight/intel_backlight/brightness
 # }
+
+
+@programs-(tools)-to-install for *imgae (Ubuntu 18.04):
+    i3:
+    vim:
+    git:
+    tmux:
+    ranger:     file manager
+    oh-my-zsh:  cool terminal: z, git, tmux, vi-mode, zsh_reload
+    openSSH:    remote connection 
+    zathura:    to read books
+    qutebrowser:
+    pywall:
+    Python, Ipython, Bpython

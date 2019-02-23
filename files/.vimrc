@@ -3,7 +3,7 @@ call plug#begin('~/.vim/plug')
 
 
 Plug 'junegunn/goyo.vim'
-Plug 'Valloric/YouCompleteMe'
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 Plug 'scrooloose/nerdtree'
 Plug 'majutsushi/tagbar'
 Plug 'airblade/vim-gitgutter'
@@ -19,7 +19,7 @@ Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'rafi/awesome-vim-colorschemes'
 
-Plug 'junegunn/fzf.vim'
+Plug 'junegunn/fzf.vim', { 'do': 'yes \| ./install' }
 Plug 'mileszs/ack.vim'
 
 Plug 'tpope/vim-surround'
@@ -33,10 +33,12 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/vim-easy-align'
 
+Plug 'https://github.com/brooth/far.vim'
 
 " in plan: 
-" Bundle 'https://github.com/brooth/far.vim'
-" Bundle 'https://github.com/xolox/vim-notes'
+"Plug 'https://github.com/xolox/vim-notes'
+"Plug 'https://github.com/xolox/vim-misk'
+
 " Bundle 'pangloss/vim-javascript'
 
 
@@ -50,6 +52,8 @@ call plug#end()
 let mapleader=" "
 
 set numberwidth=1
+set list
+set scrolloff=5
 " set autochdir
 
 set lcs=eol:¬,trail:⋅
@@ -83,6 +87,10 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 let g:NERDTreeDirArrowExpandable = '▸'
 let g:NERDTreeDirArrowCollapsible = '▾'
 map <C-n> :NERDTreeToggle<CR>
+
+
+" #YOU COMPLETE ME
+let g:ycm_autoclose_preview_window_after_completion=1
 
 
 " #TAGBAR
@@ -193,6 +201,9 @@ map <Leader>k :SlimuxSendKeysLast<CR>
 " let g:multi_cursor_skip_key            = '<C-x>'
 " let g:multi_cursor_quit_key            = '<Esc>'"
 
+" #FAR
+set lazyredraw
+set regexpengine=1
 
 "============================ FUNCTIONS ===============================
 filetype on
@@ -222,14 +233,14 @@ func! CompileRunGcc()
     endif
 endfunc
 
-nnoremap <C-i> :call NumberToggle()<cr>
-function! NumberToggle()
-    if(&rnu == 1)
-        set nornu
-    else
-        set rnu
-    endif
-endfunc
+"nnoremap <C-i> :call NumberToggle()<cr>
+"function! NumberToggle()
+"    if(&rnu == 1)
+"        set nornu
+"    else
+"        set rnu
+"    endif
+"endfunc
 
 " let timer = timer_start(500, 'MyHandler',
 "nnoremap <Leader>g :let timer = timer_start(3000, 'ScrollD', {'repeat': 3})<cr>
