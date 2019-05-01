@@ -51,6 +51,47 @@ def create_vim_folder(arg, path):
     copy('.vimrc', path)
 
 
+
+def vim_levels(level):
+    """
+    if level == 'm':
+    Plug 'junegunn/goyo.vim'
+    Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+    Plug 'scrooloose/nerdtree'
+    Plug 'majutsushi/tagbar'
+    Plug 'airblade/vim-gitgutter'
+    Plug 'edkolev/tmuxline.vim'
+    Plug 'Raimondi/delimitMate'
+    Plug 'Yggdroot/indentLine'
+    Plug 'scrooloose/nerdcommenter'
+
+    Plug 'python-mode/python-mode', { 'branch': 'develop' }
+    Plug 'Vimjas/vim-python-pep8-indent'
+
+    Plug 'bling/vim-airline'
+    Plug 'vim-airline/vim-airline-themes'
+    Plug 'rafi/awesome-vim-colorschemes'
+
+    Plug 'junegunn/fzf.vim', { 'do': 'yes \| ./install' }
+    Plug 'mileszs/ack.vim'
+
+    Plug 'tpope/vim-surround'
+    Plug 'tpope/vim-repeat'
+    Plug 'mhinz/vim-startify'
+    Plug 'easymotion/vim-easymotion'
+    Plug 'tpope/vim-fugitive'
+    Plug 'epeli/slimux'
+    Plug 'benmills/vimux'
+    Plug 'terryma/vim-multiple-cursors'
+    Plug 'jiangmiao/auto-pairs'
+    Plug 'junegunn/vim-easy-align'
+
+    Plug 'https://github.com/brooth/far.vim'
+    """
+    pass
+
+
+
 if __name__ == "__main__":
 
     chdir('files')
@@ -64,5 +105,6 @@ if __name__ == "__main__":
             create_vim_folder(True, rpath)
         elif arg == '-tc':
             copy('.tmux.conf', rpath)
+            copy('.tmuxline.conf', rpath)
         elif arg.startswith('-al:'):
             make_alias(arg, rpath)
