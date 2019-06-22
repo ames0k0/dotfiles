@@ -2,12 +2,12 @@
 call plug#begin('~/.vim/plug')
 
 
+Plug 'davidhalter/jedi-vim'
+
 Plug 'junegunn/goyo.vim'
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 Plug 'scrooloose/nerdtree'
 Plug 'majutsushi/tagbar'
 Plug 'airblade/vim-gitgutter'
-Plug 'edkolev/tmuxline.vim'
 Plug 'Raimondi/delimitMate'
 Plug 'Yggdroot/indentLine'
 Plug 'scrooloose/nerdcommenter'
@@ -66,7 +66,8 @@ set history=500
 set showcmd
 set visualbell
 
-color space-vim-dark
+color challenger_deep
+" color space-vim-dark
 set encoding=utf-8
 
 " INDENTATION ?

@@ -1,6 +1,3 @@
-# PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\][kira@-築城院 真鍳]\[\033[34m\]:\[\033[01;95m\]\W\[\033[00m\]\n\$ '
-
-
 # https://github.com/rupa/z/issues/230
 case $(uname -a) in
     *Microsoft*) unsetopt BG_NICE ;;
@@ -20,15 +17,21 @@ esac
 # }
 
 
+# backlight
+https://askubuntu.com/questions/149054/how-to-change-lcd-brightness-from-command-line-or-via-script
+xrandr --output LVDS-1 --brightness 0.5
+# NOTE: 0.0 - full black
+
+
 @programs-(tools)-to-install for *imgae (Ubuntu 18.04):
     i3:
     vim:
     git:
     tmux:
     ranger:     file manager
-    oh-my-zsh:  cool terminal: z, git, tmux, vi-mode, zsh_reload
+    oh-my-zsh:  cool terminal: z, git, tmux, vi-mode
     openSSH:    remote connection 
     zathura:    to read books
     qutebrowser:
-    pywall:
-    Python, Ipython, Bpython
+    pywal:
+    Python, Ipython
