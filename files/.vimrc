@@ -1,26 +1,28 @@
 "======================= PLUG INSTALLATIONS ===========================
 call plug#begin('~/.vim/plug')
 
-
-Plug 'junegunn/goyo.vim'
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+"Plug 'junegunn/goyo.vim'
+"Plug 'davidhalter/jedi-vim'
+"Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 Plug 'scrooloose/nerdtree'
 Plug 'majutsushi/tagbar'
 Plug 'airblade/vim-gitgutter'
 Plug 'edkolev/tmuxline.vim'
+
+Plug 'jiangmiao/auto-pairs'
 Plug 'Raimondi/delimitMate'
+
 Plug 'Yggdroot/indentLine'
 Plug 'scrooloose/nerdcommenter'
 
-Plug 'python-mode/python-mode', { 'branch': 'develop' }
+"Plug 'python-mode/python-mode', { 'branch': 'develop' }
 Plug 'Vimjas/vim-python-pep8-indent'
 
-Plug 'bling/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'rafi/awesome-vim-colorschemes'
-
-Plug 'junegunn/fzf.vim', { 'do': 'yes \| ./install' }
-Plug 'mileszs/ack.vim'
+"Plug 'junegunn/fzf.vim', { 'do': 'yes \| ./install' }
+"Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+"Plug 'mileszs/ack.vim'
+"
+Plug 'vim-python/python-syntax'
 
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
@@ -30,10 +32,9 @@ Plug 'tpope/vim-fugitive'
 Plug 'epeli/slimux'
 Plug 'benmills/vimux'
 Plug 'terryma/vim-multiple-cursors'
-Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/vim-easy-align'
 
-Plug 'https://github.com/brooth/far.vim'
+"Plug 'https://github.com/brooth/far.vim'
 
 " in plan: 
 "Plug 'https://github.com/xolox/vim-notes'
@@ -42,7 +43,20 @@ Plug 'https://github.com/brooth/far.vim'
 " Bundle 'pangloss/vim-javascript'
 
 
+"Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+"Plug 'rafi/awesome-vim-colorschemes'
+
+Plug 'jacoborus/tender.vim'
+
 call plug#end()
+
+
+let g:airline#extensions#tabline#enabled = 1
+"https://github.com/vim-airline/vim-airline-themes
+"https://github.com/vim-airline/vim-airline
+let g:airline_theme="dracula"
 
 
 "======================= AUTO RUN =====================================
@@ -54,8 +68,10 @@ let mapleader=" "
 set numberwidth=1
 set list
 set scrolloff=5
+set belloff=all
 " set autochdir
 
+set encoding=utf-8
 set lcs=eol:¬,trail:⋅
 set rnu
 set incsearch
@@ -66,17 +82,33 @@ set history=500
 set showcmd
 set visualbell
 
-color space-vim-dark
-set encoding=utf-8
-
 " INDENTATION ?
 set autoindent
 set smartindent
 set smarttab
+set expandtab
 set shiftwidth=4
 set softtabstop=4
 set tabstop=4
-set expandtab
+
+color tender
+syntax enable
+set background=dark
+
+set cursorline
+
+"ls ~/.vim/plug/awesome-vim-colorschemes/colors | cut -d'.' -f1
+"color gotham256
+"color challenger_deep
+
+"background is not good
+"color onedark
+
+"color one
+"color space-vim-dark
+"color molokai
+"color dracula
+"color jellybeans
 
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.png,*.jpg,*.gif
 
@@ -86,15 +118,18 @@ set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.png,*.jpg,*.gif
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 let g:NERDTreeDirArrowExpandable = '▸'
 let g:NERDTreeDirArrowCollapsible = '▾'
-map <C-n> :NERDTreeToggle<CR>
+"map <C-n> :NERDTreeToggle<CR>
+map <F3> :NERDTreeToggle<CR>
 
-
-" #YOU COMPLETE ME
-let g:ycm_autoclose_preview_window_after_completion=1
+" #Jedi
+" let g:jedi#auto_initialization = 0
+"let g:jedi#popup_on_dot = 0
 
 
 " #TAGBAR
 nmap <F8> :TagbarToggle<CR>
+let g:tagbar_left = 1
+let g:tagbar_width = 30
 
 
 " #FZF
@@ -113,7 +148,7 @@ imap <c-x><c-l> <plug>(fzf-complete-line)
 
 
 " #AG
-let g:ackprg = 'ag --vimgrep'
+"let g:ackprg = 'ag --vimgrep'
 
 
 " #SURROUND
@@ -139,8 +174,7 @@ let g:ackprg = 'ag --vimgrep'
 "q    to close the quickfix window
 
 
-" #PYTHON3 MODE
-let g:pymode_python = 'python3'
+let g:python_highlight_all = 1
 
 
 " #TMUXLINE
@@ -159,7 +193,6 @@ let g:indentLine_char = '┆'
 
 " #VIM-EASY-ALIGN
 nmap ga <Plug>(EasyAlign)
-
 
 " #NERDCOMMENTER
 " Add spaces after comment delimiters by default
@@ -205,11 +238,14 @@ map <Leader>k :SlimuxSendKeysLast<CR>
 set lazyredraw
 set regexpengine=1
 
+
 "============================ FUNCTIONS ===============================
 filetype on
+"filetype indent on
 
-autocmd BufNewFile *.sh,*.py exec ":call SetTitle()" 
+autocmd BufNewFile *.sh,*.py,*txt exec ":call SetTitle()"
 func SetTitle() 
+
     if &filetype == 'sh' 
         call setline(1,"\#!/bin/bash") 
         call append(line("."), "") 
@@ -217,11 +253,14 @@ func SetTitle()
     elseif &filetype == 'python'
         call setline(1,"#!/usr/bin/env python3")
         call append(line("."),"# -*- coding: utf-8 -*-")
-        call append(line(".")+1, "") 
-        call append(line(".")+2, "# __author__ = 'kira@-天底 ガジ'")
-        call append(line(".")+3, "")
-        call append(line(".")+4, "") 
+        call append(line(".")+1,"")
+        call append(line(".")+2,"")
+    elseif &filetype == 'text'
+        call setline(1,"; author: <kira@-天底_ガジ>")
+        call append(line("."), "; ." . strftime('%m-%d') . ":  ---------------")
+        call append(line(".")+1, "..")
     endif
+
 endfunc 
 autocmd BufNewFile * normal G
 
@@ -241,10 +280,11 @@ endfunc
 "        set rnu
 "    endif
 "endfunc
+"
+"
 
 " let timer = timer_start(500, 'MyHandler',
 "nnoremap <Leader>g :let timer = timer_start(3000, 'ScrollD', {'repeat': 3})<cr>
 "func ScrollD(timer)
 "    :exec 'normal \<C-e>'
 "endfunc
-"
