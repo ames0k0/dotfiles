@@ -48,28 +48,17 @@ def update_zsh_plugins():
     remove(zsh_config)
 
 
-def create_vim_folder(arg):
-    url = "curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
-
-    if not arg:
-        folder = join(rpath, '.vim', 'autoload')
-        system(f"mkdir -p {folder}")
-        system(url)
-
-    copy('.vimrc', rpath)
-
 
 if __name__ == "__main__":
 
-    from os import environ, system, chdir, remove
+    from os import environ, system, remove
     from sys import argv
     from shutil import copy
     from os.path import join, exists
     from collections import namedtuple
 
-    _args = namedtuple('a', ['vim_init', 'vim_copy', 'tmux_copy', 'zsh_plugins'])
-    a = _args('-vi', '-vc', '-tc', '-zp')
+    _args = namedtuple('a', ['vim_init', 'tmux_init', 'zsh_plugins'])
+    a = _args('-vi', '-ti', '-zp')
 
     has_args = argv[1:]
 
@@ -78,18 +67,12 @@ if __name__ == "__main__":
         exit(0)
 
 
-    chdir('files')
     rpath = environ['HOME']
     zsh_config = '.zshrc'
 
 
     for arg in has_args:
-        if arg == a.vim_init:
-            create_vim_folder(False)
-        elif arg == a.vim_copy:
-            create_vim_folder(True)
-        elif arg == a.tmux_copy:
-            copy('.tmux.conf', rpath)
-            copy('.tmuxline.conf', rpath)
-        elif arg == a.zsh_plugins:
+        if arg == a.zsh_plugins:
             update_zsh_plugins()
+        elif arg in (a.vim_init, a.tmux_init):
+            system(f'./config_deps.sh {arg}')

@@ -6,9 +6,8 @@ let mapleader=','
 ./linux_deps.sh     -> install requirements for vim plugins
 
 ./pyfile.py [ args ]
-    -vi     -> *install vim plug manager, does also -vc
-    -vc     -> *make vim config
-    -tc     -> *make tmux config
+    -vi     -> download vim plug manager and copy vimrc to $HOME
+    -ti     -> download themes for tmux and copy tmux.conf to $HOME
     -zp     -> *make zsh config (if zsh installed)
 ```
 ![vim_tmux_workflow](https://user-images.githubusercontent.com/26835631/38773287-09b7bd24-4051-11e8-8940-e30aac9c75fd.png)
