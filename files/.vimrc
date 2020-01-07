@@ -1,66 +1,47 @@
 "======================= PLUG INSTALLATIONS ===========================
 call plug#begin('~/.vim/plug')
 
-"Plug 'junegunn/goyo.vim'
-"Plug 'davidhalter/jedi-vim'
-"Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
-Plug 'scrooloose/nerdtree'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all'  }
+Plug 'mileszs/ack.vim'
 Plug 'majutsushi/tagbar'
-Plug 'airblade/vim-gitgutter'
-Plug 'edkolev/tmuxline.vim'
-
-Plug 'jiangmiao/auto-pairs'
-Plug 'Raimondi/delimitMate'
-
-Plug 'Yggdroot/indentLine'
+Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/nerdcommenter'
 
-"Plug 'python-mode/python-mode', { 'branch': 'develop' }
-Plug 'Vimjas/vim-python-pep8-indent'
+Plug 'Yggdroot/indentLine'
+Plug 'Raimondi/delimitMate'
 
-"Plug 'junegunn/fzf.vim', { 'do': 'yes \| ./install' }
-"Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-"Plug 'mileszs/ack.vim'
-"
+Plug 'jiangmiao/auto-pairs'
+Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-fugitive'
+
+Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'vim-python/python-syntax'
 
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'mhinz/vim-startify'
-Plug 'easymotion/vim-easymotion'
-Plug 'tpope/vim-fugitive'
-Plug 'epeli/slimux'
-Plug 'benmills/vimux'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'junegunn/vim-easy-align'
+Plug 'easymotion/vim-easymotion'
 
-"Plug 'https://github.com/brooth/far.vim'
+Plug 'epeli/slimux'
+Plug 'benmills/vimux'
 
-" in plan: 
-"Plug 'https://github.com/xolox/vim-notes'
-"Plug 'https://github.com/xolox/vim-misk'
-
-" Bundle 'pangloss/vim-javascript'
-
-
-"Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-"Plug 'rafi/awesome-vim-colorschemes'
 
+" colour dracula
+" Plug 'dracula/vim', { 'name': 'dracula'  }
 Plug 'jacoborus/tender.vim'
+
 
 call plug#end()
 
 
-let g:airline#extensions#tabline#enabled = 1
-"https://github.com/vim-airline/vim-airline-themes
-"https://github.com/vim-airline/vim-airline
-let g:airline_theme="dracula"
+let g:airline_theme="serene"
+" behelt -> bold
+" serene -> just colors (without background-shadow)
 
-
-"======================= AUTO RUN =====================================
-" vim -c ':Tmuxline'
 
 "======================= BASIC COMMANDS ===============================
 let mapleader=" "
@@ -97,19 +78,6 @@ set background=dark
 
 set cursorline
 
-"ls ~/.vim/plug/awesome-vim-colorschemes/colors | cut -d'.' -f1
-"color gotham256
-"color challenger_deep
-
-"background is not good
-"color onedark
-
-"color one
-"color space-vim-dark
-"color molokai
-"color dracula
-"color jellybeans
-
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.png,*.jpg,*.gif
 
 "======================= PLUGIN CONFIGURATION =========================
@@ -121,35 +89,11 @@ let g:NERDTreeDirArrowCollapsible = '▾'
 "map <C-n> :NERDTreeToggle<CR>
 map <F3> :NERDTreeToggle<CR>
 
-" #Jedi
-" let g:jedi#auto_initialization = 0
-"let g:jedi#popup_on_dot = 0
-
 
 " #TAGBAR
 nmap <F8> :TagbarToggle<CR>
 let g:tagbar_left = 1
 let g:tagbar_width = 30
-
-
-" #FZF
-" Mapping selecting mappings
-" nmap <leader><tab> <plug>(fzf-maps-n)
-" xmap <leader><tab> <plug>(fzf-maps-x)
-" omap <leader><tab> <plug>(fzf-maps-o)
-" Insert mode completion
-set rtp+=~/.fzf
-imap <c-x><c-k> <plug>(fzf-complete-word)
-imap <c-x><c-f> <plug>(fzf-complete-path)
-imap <c-x><c-j> <plug>(fzf-complete-file-ag)
-imap <c-x><c-l> <plug>(fzf-complete-line)
-" Advanced customization using autoload functions
-" inoremap <expr> <c-x><c-k> fzf#vim#complete#word({'left': '15%'})
-
-
-" #AG
-"let g:ackprg = 'ag --vimgrep'
-
 
 " #SURROUND
 " cs > change state ?
@@ -159,6 +103,14 @@ imap <c-x><c-l> <plug>(fzf-complete-line)
 " ds[ -> ysiw
 " cs]} -> [ysiw] {ysiw}
 " yssb -> (yssb)
+
+
+
+" AG
+if executable('ag')
+    let g:ackprg = 'ag --vimgrep'
+endif
+
 
 " #ACK.VIM
 "?    a quick summary of these keys, repeat to close
@@ -175,16 +127,6 @@ imap <c-x><c-l> <plug>(fzf-complete-line)
 
 
 let g:python_highlight_all = 1
-
-
-" #TMUXLINE
-let g:tmuxline_theme = 'jellybeans'
-let g:tmuxline_preset = {
-    \'a'    : '#S',
-    \'win'  : ['#I', '#W'],
-    \'cwin' : ['#I', '#W', '#F'],
-    \'y'    : ['%R', '%a', '%Y'],
-    \'z'    : '#H'}
 
 
 " #INDENTLINE
@@ -234,14 +176,10 @@ map <Leader>k :SlimuxSendKeysLast<CR>
 " let g:multi_cursor_skip_key            = '<C-x>'
 " let g:multi_cursor_quit_key            = '<Esc>'"
 
-" #FAR
-set lazyredraw
-set regexpengine=1
-
 
 "============================ FUNCTIONS ===============================
 filetype on
-"filetype indent on
+
 
 autocmd BufNewFile *.sh,*.py,*txt exec ":call SetTitle()"
 func SetTitle() 
@@ -271,20 +209,3 @@ func! CompileRunGcc()
         exec "!time python3 %"
     endif
 endfunc
-
-"nnoremap <C-i> :call NumberToggle()<cr>
-"function! NumberToggle()
-"    if(&rnu == 1)
-"        set nornu
-"    else
-"        set rnu
-"    endif
-"endfunc
-"
-"
-
-" let timer = timer_start(500, 'MyHandler',
-"nnoremap <Leader>g :let timer = timer_start(3000, 'ScrollD', {'repeat': 3})<cr>
-"func ScrollD(timer)
-"    :exec 'normal \<C-e>'
-"endfunc
