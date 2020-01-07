@@ -1,68 +1,95 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+
 __author__ = {
-    'kira@-築城院 真鍳',
+    'Nodiru Gaji',
+    'LeUser ououZero',
     'Tanya von Degurechaff'
 }
 
 
-"""
-I'm doing (gonna do) API post, here will be only web-scrapers
-"""
+def get_zsh_conf():
+    zsh_conf = join(rpath, zsh_config)
+
+    if exists(zsh_conf):
+        plugins = ('z', 'git', 'tmux', 'vi-mode', 'zsh_reload')
+
+        add_new_line = lambda n: f'{n}\n'
+        p_target = 'plugins=('
+        t_target = 'ZSH_THEME='
+
+        with open(zsh_conf, 'r') as ftr:
+            for line in ftr.readlines():
+
+                if line.startswith(p_target) and (len(line.strip()) != len(p_target)):
+                    yield add_new_line(p_target)
+
+                    for each in map(lambda x: add_new_line(f'    {x}'), plugins):
+                        yield each
+
+                    yield add_new_line(')')
+                    continue
+
+                elif line.startswith(t_target):
+                    yield add_new_line(f'{t_target}"afowler"')
+                    continue
+
+                yield line
 
 
-from os import environ, system, chdir
-from sys import argv
-from shutil import copy
-from os.path import join
+def update_zsh_plugins():
+
+    with open(zsh_config, 'w') as ftw:
+        for line in get_zsh_conf():
+            ftw.write(line)
+
+    copy(zsh_config, rpath)
+    remove(zsh_config)
 
 
-def make_alias(bash, path):
-    a = "_aliases"
-    s = "\nif [ -f {0} ]; then\n    . {0}\nfi"
-    z, b = "{0}.zshrc;{0}.bashrc".format(path).split(';')
-
-    def rep(sh):
-        return sh.replace('rc', a)
-
-    shells = {
-        "b": [b, s.format(rep(b))],
-        "z": [z, s.format(rep(z))]
-    }
-
-    shell, alias = shells[bash.split(':')[-1][:1]]
-
-    with open(shell, 'a') as fa:
-        fa.write(alias)
-
-    copy(a[1:], rep(shell))
-
-
-def create_vim_folder(arg, path):
+def create_vim_folder(arg):
     url = "curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
         https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
 
     if not arg:
-        folder = join(path, '.vim', 'autoload')
+        folder = join(rpath, '.vim', 'autoload')
         system(f"mkdir -p {folder}")
         system(url)
 
-    copy('.vimrc', path)
+    copy('.vimrc', rpath)
 
 
 if __name__ == "__main__":
 
+    from os import environ, system, chdir, remove
+    from sys import argv
+    from shutil import copy
+    from os.path import join, exists
+    from collections import namedtuple
+
+    _args = namedtuple('a', ['vim_init', 'vim_copy', 'tmux_copy', 'zsh_plugins'])
+    a = _args('-vi', '-vc', '-tc', '-zp')
+
+    has_args = argv[1:]
+
+    if not has_args:
+        print(a)
+        exit(0)
+
+
     chdir('files')
     rpath = environ['HOME']
+    zsh_config = '.zshrc'
 
-    # not tested
-    for arg in argv[1:]:
-        if arg == '-vi':
-            create_vim_folder(False, rpath)
-        elif arg == '-vc':
-            create_vim_folder(True, rpath)
-        elif arg == '-tc':
+
+    for arg in has_args:
+        if arg == a.vim_init:
+            create_vim_folder(False)
+        elif arg == a.vim_copy:
+            create_vim_folder(True)
+        elif arg == a.tmux_copy:
             copy('.tmux.conf', rpath)
-        elif arg.startswith('-al:'):
-            make_alias(arg, rpath)
+            copy('.tmuxline.conf', rpath)
+        elif arg == a.zsh_plugins:
+            update_zsh_plugins()
