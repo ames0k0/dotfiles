@@ -21,7 +21,7 @@ function _tmux {
 
     cp 'files/.tmux.conf' $HOME
 
-    prev_theme="$HOME/.tmuxline.conf" 
+    prev_theme="$HOME/.tmuxline.conf"
 
     if [ -f "$prev_theme" ]; then
         rm $prev_theme

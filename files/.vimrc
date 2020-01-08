@@ -194,13 +194,16 @@ func SetTitle()
         call append(line(".")+1,"")
         call append(line(".")+2,"")
     elseif &filetype == 'text'
-        call setline(1,"; author: <kira@-天底_ガジ>")
-        call append(line("."), "; ." . strftime('%m-%d') . ":  ---------------")
-        call append(line(".")+1, "..")
+        " SEE:
+        " https://vi.stackexchange.com/questions/17704/how-to-remove-character-returned-by-system
+        call setline(1,"; author: <" . substitute(system("git config --global user.name"), '\n', '', 'g') . ">")
+        call append(line("."), "; c_date: " . strftime('%Y-%m-%d'))
+        call append(line(".")+1,"")
     endif
 
 endfunc 
 autocmd BufNewFile * normal G
+
 
 map <F5> :call CompileRunGcc()<CR>
 func! CompileRunGcc()
