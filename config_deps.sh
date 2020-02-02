@@ -2,8 +2,13 @@
 
 
 function _vim {
+
+    if ! type curl; then
+        ./linux_deps.sh
+    fi
+
     if [ ! -d "$HOME/.vim/autoload" ]; then
-        curl -fLo $HOME.vim/autoload/plug.vim --create-dirs \
+        curl -fLo $HOME/.vim/autoload/plug.vim --create-dirs \
             'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
     fi
 
