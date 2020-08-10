@@ -1,14 +1,24 @@
 ```
-vim default Leader -> '\'
-let mapleader=','
+let mapleader=' ' :: default for vim '\'
 
 
-./linux_deps.sh     -> install requirements for vim plugins
+[Note]
+- no backups
 
-./pyfile.py [ args ]
-    -vi     -> download vim plug manager and copy vimrc to $HOME
-    -ti     -> download themes for tmux and copy tmux.conf to $HOME
-    -zp     -> *make zsh config (if zsh installed)
+
+[Dependencies]
+[[ default ]]
+- tmux :: (tmux)
+- vimrc:: (vim-plug nodejs npm python3 pip3)
+
+
+[[ for mine ]]
+- vimrc:: += (asdf-vm gpg)
+
+
+[Usage]
+./install.sh --i-tools :: for mine
+./install.sh
 ```
 ![Ubuntu](https://raw.githubusercontent.com/hhiki/dotfiles/simple/pics/simple.png)
 # deprecated
