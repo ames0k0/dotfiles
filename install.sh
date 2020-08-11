@@ -1,6 +1,11 @@
 #!/bin/bash
 
 
+#
+# Just wasting time to tryna find an errors
+#
+
+
 function install_from_package_list() {
     for i in "$@"
     do
@@ -66,34 +71,8 @@ function _install_plugins {
 }
 
 
-function _command_check {
-    if ! command -v $1 &> /dev/null
-    then
-        return 0
-    fi
-
-    return 1
-}
-
-
-function coc_python {
-    # SEE:
-    # https://stackoverflow.com/questions/592620/how-can-i-check-if-a-program-exists-from-a-bash-script
-
-    pp='pip3'
-
-    if [[ $(_command_check $pp) -eq 0 ]]; then
-        pp='pip'
-
-        if [[ $(_command_check $pp) -eq 0 ]]; then
-            echo '[!] Required pip for python!'
-            exit 1
-        fi
-
-    fi
-
-    $pp install jedi pylint python-language-server
-
+function _coc_python {
+    pip3 install jedi pylint python-language-server
 }
 
 
@@ -103,29 +82,23 @@ CONFIG_TOOLS=(vim curl wget git zsh silversearcher-ag ack fzf ctags)
 # I3_CONFIG=(xbacklight)
 
 
-if [ "$1" == "--i-tools" ]; then
-    install_from_package_list "${OS_TOOLS[@]}"
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-    sed -i 's/plugins=(git)/plugins=(z git tmux asdf vi-mode zsh_reload)/g' $HOME/.zshrc
-    set -i 's/ZSH_THEME="robbyrussell"/ZSH_THEME="afowler"/g' $HOME/.zshrc
-
-else
-    echo '[!] Install nodejs + npm for coc-nvim. !required'
-    echo '[-] --i-tools installing not required programms too.'
-    echo '[-] You need to modify it!'
-    exit 1
-fi
-
-
+install_from_package_list "${OS_TOOLS[@]}"
 install_from_package_list "${CONFIG_TOOLS[@]}"
+
+
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+sed -i 's/plugins=(git)/plugins=(z git tmux asdf vi-mode zsh_reload)/g' $HOME/.zshrc
+set -i 's/ZSH_THEME="robbyrussell"/ZSH_THEME="afowler"/g' $HOME/.zshrc
+
 
 _vim
 _tmux
 
 
-if [[ $(_command_check 'nodejs') -eq 0 ]]; then
-    echo '[!] Installing asdf-vm for nodejs and npm!'
+if [ "$1" == "--i-asdf" ]; then
     _asdf_vm
 fi
 
-coc_python
+
+_coc_python
+_install_plugins
