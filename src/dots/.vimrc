@@ -18,7 +18,7 @@ Plug 'junegunn/vim-easy-align'
 Plug 'easymotion/vim-easymotion'
 
 "                           " find & edit multiple target
-Plug 'terryma/vim-multiple-cursors' 
+Plug 'terryma/vim-multiple-cursors'
 Plug 'majutsushi/tagbar'    " taglist for PL
 "                           " compilations, linters and fixers for PL
 Plug 'neoclide/coc.nvim', {'branch': 'release'}

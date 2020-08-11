@@ -76,10 +76,13 @@ function _coc_python {
 }
 
 
-OS_TOOLS=(tmux ranger ssh keychain tldr)
-CONFIG_TOOLS=(vim curl wget git zsh silversearcher-ag ack fzf ctags)
+OS_TOOLS=(ranger ssh keychain tldr net-tools htop)
+CONFIG_TOOLS=(tmux vim curl wget git zsh silversearcher-ag ack fzf ctags)
 # TODO
 # I3_CONFIG=(xbacklight)
+
+
+sudo apt update
 
 
 install_from_package_list "${OS_TOOLS[@]}"
@@ -88,7 +91,7 @@ install_from_package_list "${CONFIG_TOOLS[@]}"
 
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 sed -i 's/plugins=(git)/plugins=(z git tmux asdf vi-mode zsh_reload)/g' $HOME/.zshrc
-set -i 's/ZSH_THEME="robbyrussell"/ZSH_THEME="afowler"/g' $HOME/.zshrc
+sed -i 's/ZSH_THEME="robbyrussell"/ZSH_THEME="afowler"/g' $HOME/.zshrc
 
 
 _vim
