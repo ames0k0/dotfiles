@@ -1,9 +1,6 @@
 call plug#begin('~/.vim/plug')
 
 Plug 'mhinz/vim-startify'   " welcome page
-Plug 'vim-airline/vim-airline'
-"                           " pretty powerline
-Plug 'vim-airline/vim-airline-themes'
 Plug 'morhetz/gruvbox'      " color
 
 Plug 'jiangmiao/auto-pairs' " adding closing things
@@ -22,10 +19,9 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'majutsushi/tagbar'    " taglist for PL
 "                           " compilations, linters and fixers for PL
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-"                           " PL syntax
-Plug 'vim-python/python-syntax'
-"                           " PL syntax
-Plug 'pangloss/vim-javascript'
+
+"                           " indentation for python (*auto-pairs)
+Plug 'Vimjas/vim-python-pep8-indent'
 
 "                           " fuzzyfinder, searching for files
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -57,7 +53,7 @@ let mapleader=" "           " changing default ('/') leader key to (' ')
 " VISUAL geo
 set nu
 set rnu
-set lcs=eol:¬               " *trail removes python systax highlight
+set lcs=eol:¬,trail:⋅
 set list
 set numberwidth=1           " limited spaces for line number
 
@@ -69,27 +65,25 @@ set ignorecase              " ignore A-Za-z
 " on FILES
 set autoindent              " keeps the same level as current line start
 set smartindent             " making it smarter
+set shiftwidth=4
+set softtabstop=4
+set tabstop=4
+
 filetype plugin indent on
 
 "                           " BufRead - on reading
-autocmd BufRead * exec ":call SettingsForFile()"
+autocmd BufNewFile,BufRead * exec ":call SettingsForFile()"
 func SettingsForFile()
+    "                       " highlight for lcs
+    highlight SpecialKey guibg=DeepPink
+
     if &filetype == 'python'
         "                   " python3 | pydoc
         set keywordprg=pydoc3
-        set tabstop=4
-        set softtabstop=4
-        set shiftwidth=4
-
     elseif &filetype == 'javascript'
         set tabstop=2
         set softtabstop=2
         set shiftwidth=2
-
-    else
-        set tabstop=4
-        set softtabstop=4
-        set shiftwidth=4
     endif
 endfunc
 
@@ -100,10 +94,10 @@ set expandtab               " replaces tab with spaces
 autocmd BufNewFile *.sh,*.py,*txt exec ":call TitleForFile()"
 "                           https://github.com/ma6174/vim/
 func TitleForFile()
-    if &filetype == 'sh' 
-        call setline(1,"\#!/bin/bash") 
-        call append(line("."), "") 
-        call append(line(".")+1, "") 
+    if &filetype == 'sh'
+        call setline(1,"\#!/bin/bash")
+        call append(line("."), "")
+        call append(line(".")+1, "")
 
     elseif &filetype == 'python'
         call setline(1,"#!/usr/bin/env python3")
@@ -126,10 +120,6 @@ syntax on                   " syntax highlighting
 
 
 " ======================= Plugin Config ========================= "
-" VIM-AIRLINE-THEMES
-let g:airline_theme="serene"
-
-
 " GRUVBOX
 if exists('+termguicolors') " use better color bits
     let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
@@ -142,7 +132,7 @@ set background=dark
 
 
 " AUTO-PAIRS
-" let g:AutoPairsFlyMode = 1
+let g:AutoPairsFlyMode = 1
 
 
 " NERDCOMMENTER
@@ -177,31 +167,27 @@ let g:tagbar_width = 35
 
 
 " COC-NVIM
-"                            " Error
+"                           " Error
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
-"                            " Created place (as it's name says)
+"                           " Created place (as it's name says)
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
 
-set hidden                   " TextEdit might fail if hidden is not set.
-set nobackup                 " Some servers have issues with backup files, see #649.
+set hidden                  " TextEdit might fail if hidden is not set.
+set nobackup                " Some servers have issues with backup files, see #649.
 set nowritebackup
-
-
-" PYTHON-SYNTAX
-let g:python_highlight_all = 1
 
 
 " ZFZ
 let g:fzf_layout = {'down': '30%'}
-"                             " github files
-nnoremap <leader>g :GFiles<CR> 
-"                             " local files
-nnoremap <leader>f :Files<CR> 
+"                            " github files
+nnoremap <leader>g :GFiles<CR>
+"                            " local files
+nnoremap <leader>f :Files<CR>
 
 
 " INDENTLINE
