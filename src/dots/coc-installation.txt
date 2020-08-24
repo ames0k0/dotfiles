@@ -1,0 +1,26 @@
+-> vim-plug
+-> ~/.config/nvim/init.vim
+    Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+    :CocInstall coc-tsserver coc-css coc-html coc-python
+-> npm -g install neovim
+-> pip3 install 'python-language-server[all]'
+    WARNING installed in .local/bin which is not in PATH: yapf, pydocstyle, pyls, flake8, pyflakes, pycodestyle, autopep8
+    :: export PATH=~/.local/bin:$PATH
+
+    $(python2.7)
+        pip install neovim
+
+{ --- } :: removed
+npm i -g bash-language-server
+
+
+
+{ starting over coc ]
+[ installs ]
+ctag
+
+
+{ --- } :: YCM
+install cmake
+
