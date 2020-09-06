@@ -1,30 +1,68 @@
 #!/bin/bash
 
-
 #
-# Just wasting time to tryna find an errors
+# ./install.sh [-all] | -{arg}
 #
 
 
-function install_from_package_list() {
-    for i in "$@"
-    do
-        sudo apt install "$i"
-    done
+ZSH_CONF="$HOME/.zshrc"
+I3_CONF="$HOME/.config/i3/config"
+
+
+sudo apt-get update
+
+
+function _req {
+    sudo apt-get install --reinstall \
+        vim curl tmux zsh \
+        gpg \
+        silversearcher-ag ack fzf universal-ctags \
+        feh xbacklight compton \
+        python3-pip
+}
+
+[ "$1" == "-req" ] && _req
+
+
+function _dev {
+    #
+    # *git used to clone this
+    #
+    sudo apt-get install --reinstall \
+        zsh git wget ssh keychain ranger htop tldr net-tools ncdu
+
+    echo '. $HOME/.keychain/`uname -n`-sh 2>/dev/null' >> $ZSH_CONF
+
+}
+
+[ "$1" == "-dev" ] && _dev
+
+
+function _get_plugins_and_themes {
+    #
+    # changing zsh config
+    #
+    sed -i 's/^plugins=(git)/plugins=(z fzf git tmux asdf vi-mode zsh_reload)/g' $ZSH_CONF
+    sed -i 's/^ZSH_THEME="robbyrussell"/ZSH_THEME="afowler"/g' $ZSH_CONF
 }
 
 
-function _vim {
-    if [ ! -d "$HOME/.vim/autoload" ]; then
-        curl -fLo $HOME/.vim/autoload/plug.vim --create-dirs \
-            'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-    fi
-
-    cp 'src/dots/.vimrc' $HOME
+function _zsh {
+    #
+    # oh-my-zsh
+    #
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    # skipped after installing zsh
+    _get_plugins_and_themes
 }
+
+[ "$1" == "-zsh" ] && _zsh
 
 
 function _tmux {
+    #
+    # tmux theme + config
+    #
     new_theme="$HOME/.tmux-themepack"
 
     if [ ! -d "$new_theme" ]; then
@@ -34,8 +72,24 @@ function _tmux {
     cp 'src/dots/.tmux.conf' $HOME
 }
 
+[ "$1" == "-tmux" ] && _tmux
 
-function _asdf_vm {
+
+function _vim {
+    if [ ! -d "$HOME/.vim/autoload" ]; then
+        curl -fLo $HOME/.vim/autoload/plug.vim --create-dirs \
+            'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+    fi
+
+    cp 'src/dots/.vimrc' $HOME
+
+    pip3 install python-language-server flake8
+}
+
+[ "$1" == "-vim" ] && _vim
+
+
+function _asdf {
     #
     # multiversion support
     # SEE: https://asdf-vm.com/#/core-manage-asdf-vm
@@ -46,62 +100,46 @@ function _asdf_vm {
     git checkout "$(git describe --abbrev=0 --tags)"
     cd -
 
-    config_path="$HOME/.bashrc"
-
-    if [[ -f "$HOME/.zshrc" ]]; then
-        config_path="$HOME/.zshrc"
-    fi
-
-    echo '. $HOME/.asdf/asdf.sh' >> $config_path
-    echo '. $HOME/.asdf/completions/asdf.bash' >> $config_path
+    echo '. $HOME/.asdf/asdf.sh' >> $ZSH_CONF
+    echo '. $HOME/.asdf/completions/asdf.bash' >> $ZSH_CONF
 
     asdf plugin add nodejs
-    asdf install nodejs latest
-
-    install_from_package_list gpg
     bash -c '${ASDF_DATA_DIR:=$HOME/.asdf}/plugins/nodejs/bin/import-release-team-keyring'
+
+    asdf install nodejs latest
     asdf global nodejs "$(asdf install nodejs latest | cut -d' ' -f2)"
-
 }
 
+[ "$1" == "-asdf" ] && _asdf
 
-function _install_plugins {
-    vim -c ':PlugInstall' -c 'qall'
-    vim -c ':CocInstall coc-json coc-tsserver coc-python coc-html coc-css' -c 'qall'
+
+function _i3 {
+    # touchpad click
+    # SEE: https://cravencode.com/post/essentials/enable-tap-to-click-in-i3wm/
+    sudo mkdir -p /etc/X11/xorg.conf.d && cp src/dots/.touchpad.conf /etc/X11/xorg.conf.d/90-touchpad.conf
+
+    # terminal transparent :req: compton
+    cp src/dots/.compton.conf $HOME/.config/
+
+    # background image :req: feh
+    cp src/pics/anime_girl.jpg $HOME/Pictures/wallpaper.jpg
+
+    # backlight :req: xbacklight
+
+    # i3-gaps
+    sed -i 's/^bar {/bar {\n    height 15/g' $I3_CONF
+    cat src/dots/.i3.conf >> $I3_CONF
 }
 
-
-function _coc_python {
-    pip3 install jedi pylint python-language-server
-}
+[ "$1" == "-i3" ] && _i3
 
 
-OS_TOOLS=(ranger ssh keychain tldr net-tools htop)
-CONFIG_TOOLS=(tmux vim curl wget git zsh silversearcher-ag ack fzf ctags)
-# TODO
-# I3_CONFIG=(xbacklight)
-
-
-sudo apt update
-
-
-install_from_package_list "${OS_TOOLS[@]}"
-install_from_package_list "${CONFIG_TOOLS[@]}"
-
-
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-sed -i 's/plugins=(git)/plugins=(z git tmux asdf vi-mode zsh_reload)/g' $HOME/.zshrc
-sed -i 's/ZSH_THEME="robbyrussell"/ZSH_THEME="afowler"/g' $HOME/.zshrc
-
-
-_vim
-_tmux
-
-
-if [ "$1" == "--i-asdf" ]; then
-    _asdf_vm
+if [ "$1" == "-all" ]; then
+    _req
+    _dev
+    _zsh
+    _tmux
+    _vim
+    _asdf
+    _i3
 fi
-
-
-_coc_python
-_install_plugins

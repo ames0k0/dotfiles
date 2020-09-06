@@ -1,47 +1,16 @@
-PROMPT='%m %{${fg[blue]}%}‹%n›'
-
-# to i3 conf    | mod_key!=Alt (ubuntu using alt for 'scroll off/on' thing)
 # https://www.youtube.com/watch?v=8-S0cWnLBKg
 #     Media and volume keys snippet
 #     https://faq.i3wm.org/question/3747/enabling-multimedia-keys/?answer=3759#post-id-3759
 #
-# https://askubuntu.com/questions
-#     /149054/how-to-change-lcd-brightness-from-command-line-or-via-script
-#
-# function chl() {
-#     echo $1 > /sys/class/backlight/intel_backlight/brightness
-# }
-
-focus_follows_mouse no
-
 
 # Pulse Audio controls
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
 
-# Sreen brightness controls
-bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
-bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
 
 # Media player controls
 bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioPause exec playerctl play-pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
-
-
-@brightness:
-    # https://askubuntu.com/a/536618
-    # path: /usr/share/X11/xorg.conf.d/20-intel.conf
-    Section "Device"
-        Identifier "card0"
-        Driver "intel"
-        Option "Backlight" "intel_backlight"
-        BusID "PCI:0:2:0"
-    EndSection
-
-
-@programs-(tools)-to-install for *image (Ubuntu 18.04):
-    i3:
-    pywall:

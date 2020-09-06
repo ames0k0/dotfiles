@@ -2,6 +2,8 @@ call plug#begin('~/.vim/plug')
 
 Plug 'mhinz/vim-startify'   " welcome page
 Plug 'morhetz/gruvbox'      " color
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
 Plug 'jiangmiao/auto-pairs' " adding closing things
 Plug 'tpope/vim-surround'   " adding opening and closing things
@@ -47,7 +49,8 @@ set visualbell              " no sound
 set belloff=all             " no sound
 "                           " ignoring these file extensions on tab completion
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.png,*.jpg,*.gif
-set colorcolumn=80,100      " vertical line, *(cursorcolumn) like
+set colorcolumn=80          " vertical line, *(cursorcolumn) like
+set mouse-=a                " remove mouse clicks
 let mapleader=" "           " changing default ('/') leader key to (' ')
 
 " VISUAL geo
@@ -131,8 +134,8 @@ color gruvbox
 set background=dark
 
 
-" AUTO-PAIRS
-let g:AutoPairsFlyMode = 1
+" AIRLINE-THEME
+let g:airline_theme='behelit'
 
 
 " NERDCOMMENTER
@@ -182,7 +185,7 @@ set nobackup                " Some servers have issues with backup files, see #6
 set nowritebackup
 
 
-" ZFZ
+" FZF
 let g:fzf_layout = {'down': '30%'}
 "                            " github files
 nnoremap <leader>g :GFiles<CR>
@@ -206,3 +209,11 @@ vmap <Leader>s :SlimuxREPLSendSelection<CR>
 map <Leader>b :SlimuxREPLSendBuffer<CR>
 map <Leader>a :SlimuxShellLast<CR>
 map <Leader>k :SlimuxSendKeysLast<CR>
+
+
+" Keyword highlight (not syn; working only on first opening)
+"                           " SEE: https://stackoverflow.com/a/4162735
+match Underlined /v: \d\{,2}.\d*.\d*/
+
+"                           " myTodo
+2match Todo /RENAME\|DEPRECATED\|COMEBACK/
