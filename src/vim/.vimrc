@@ -1,26 +1,14 @@
 call plug#begin('~/.vim/plug')
 
-Plug 'mhinz/vim-startify'   " welcome page
-Plug 'morhetz/gruvbox'      " color
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-
 Plug 'jiangmiao/auto-pairs' " adding closing things
 Plug 'tpope/vim-surround'   " adding opening and closing things
 Plug 'tpope/vim-repeat'     " repeating last thing with dot -> '.'
-
+"
 "                           " commenting multiple lines
 Plug 'scrooloose/nerdcommenter'
-"                           " make it pretty with delimiters
-Plug 'junegunn/vim-easy-align'
-"                           " search, easy to go to the target
-Plug 'easymotion/vim-easymotion'
-
 "                           " find & edit multiple target
 Plug 'terryma/vim-multiple-cursors'
 Plug 'majutsushi/tagbar'    " taglist for PL
-"                           " compilations, linters and fixers for PL
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 "                           " indentation for python (*auto-pairs)
 Plug 'Vimjas/vim-python-pep8-indent'
@@ -32,9 +20,13 @@ Plug 'mileszs/ack.vim'      " searching in files
 Plug 'Yggdroot/indentLine'  " line for each scope (block, recursion block)
 
 Plug 'epeli/slimux'         " sending command, selected thing to the tmux
+
 "                           " status symbols for changes
 Plug 'airblade/vim-gitgutter'
 " Plug 'tpope/vim-fugitive'   " git commands in vim
+
+
+Plug 'NLKNguyen/papercolor-theme'
 
 call plug#end()
 
@@ -52,6 +44,8 @@ set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.png,*.jpg,*.gif
 set colorcolumn=80          " vertical line, *(cursorcolumn) like
 set mouse-=a                " remove mouse clicks
 let mapleader=" "           " changing default ('/') leader key to (' ')
+
+
 
 " VISUAL geo
 set nu
@@ -78,12 +72,14 @@ filetype plugin indent on
 autocmd BufNewFile,BufRead * exec ":call SettingsForFile()"
 func SettingsForFile()
     "                       " highlight for lcs
-    highlight SpecialKey guibg=DeepPink
+    highlight SpecialKey term=reverse ctermbg=1 guibg=DarkRed
+
+    let web = ['javascript', 'html', 'htmldjango', 'css']
 
     if &filetype == 'python'
         "                   " python3 | pydoc
         set keywordprg=pydoc3
-    elseif &filetype == 'javascript'
+    elseif index(web, &filetype) != -1
         set tabstop=2
         set softtabstop=2
         set shiftwidth=2
@@ -119,24 +115,14 @@ endfunc
 
 "                           " go down after writing title
 autocmd BufNewFile * normal G
+
+
+color PaperColor
+
 syntax on                   " syntax highlighting
 
 
 " ======================= Plugin Config ========================= "
-" GRUVBOX
-if exists('+termguicolors') " use better color bits
-    let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
-    let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
-    set termguicolors
-endif
-let g:gruvbox_contrast_dark='hard'
-color gruvbox
-set background=dark
-
-
-" AIRLINE-THEME
-let g:airline_theme='behelit'
-
 
 " NERDCOMMENTER
 let g:NERDSpaceDelims = 1   " Spase after adding comment symbol
@@ -153,36 +139,10 @@ let g:NERDTrimTrailingWhitespace = 1
 let g:NERDCommentEmptyLines = 1
 
 
-" VIM-EASYALIGN
-nmap ga <Plug>(EasyAlign)
-
-
-" VIME-ASYMOTION
-" map  / <Plug>(easymotion-sn)
-" map  n <Plug>(easymotion-next)
-" map  N <Plug>(easymotion-prev)
-
-
 " TAGBAR
 nmap <F8> :TagbarToggle<CR>
 let g:tagbar_left = 1
-let g:tagbar_width = 35
-
-
-" COC-NVIM
-"                           " Error
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
-"                           " Created place (as it's name says)
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-
-
-set hidden                  " TextEdit might fail if hidden is not set.
-set nobackup                " Some servers have issues with backup files, see #649.
-set nowritebackup
+let g:tagbar_width = 30
 
 
 " FZF
@@ -209,11 +169,3 @@ vmap <Leader>s :SlimuxREPLSendSelection<CR>
 map <Leader>b :SlimuxREPLSendBuffer<CR>
 map <Leader>a :SlimuxShellLast<CR>
 map <Leader>k :SlimuxSendKeysLast<CR>
-
-
-" Keyword highlight (not syn; working only on first opening)
-"                           " SEE: https://stackoverflow.com/a/4162735
-match Underlined /v: \d\{,2}.\d*.\d*/
-
-"                           " myTodo
-2match Todo /RENAME\|DEPRECATED\|COMEBACK/

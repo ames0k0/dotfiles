@@ -1,0 +1,23 @@
+INPUT INFO
+    Parameters
+    ----------
+    ab : type
+        info
+
+RETURN INFO
+    Returns
+    -------
+    type
+        info
+
+EXCEPTION INFO
+    Raises
+    ------
+    type
+        info
+
+RESULT EXPLAIN
+    @(return info)
+    ab -> 4b : (
+        (4 (a)) (b (b))
+    )
