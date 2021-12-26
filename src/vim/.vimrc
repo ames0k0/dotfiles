@@ -12,6 +12,7 @@ Plug 'majutsushi/tagbar'    " taglist for PL
 
 "                           " indentation for python (*auto-pairs)
 Plug 'Vimjas/vim-python-pep8-indent'
+Plug 'chemzqm/vim-jsx-improve'
 
 "                           " fuzzyfinder, searching for files
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -23,10 +24,9 @@ Plug 'epeli/slimux'         " sending command, selected thing to the tmux
 
 "                           " status symbols for changes
 Plug 'airblade/vim-gitgutter'
-" Plug 'tpope/vim-fugitive'   " git commands in vim
+Plug 'tpope/vim-fugitive'   " git commands in vim
 
-
-Plug 'NLKNguyen/papercolor-theme'
+Plug 'sainnhe/sonokai'
 
 call plug#end()
 
@@ -42,9 +42,9 @@ set belloff=all             " no sound
 "                           " ignoring these file extensions on tab completion
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.png,*.jpg,*.gif
 set colorcolumn=80          " vertical line, *(cursorcolumn) like
+" set cursorline              " highlight the active line
 set mouse-=a                " remove mouse clicks
 let mapleader=" "           " changing default ('/') leader key to (' ')
-
 
 
 " VISUAL geo
@@ -59,31 +59,33 @@ set hlsearch                " highlight what i'm searching
 set incsearch               " find what i'm typing
 set ignorecase              " ignore A-Za-z
 
-" on FILES
-set autoindent              " keeps the same level as current line start
-set smartindent             " making it smarter
-set shiftwidth=4
-set softtabstop=4
-set tabstop=4
-
 filetype plugin indent on
+syntax on                   " ignore syntax highlighting
 
 "                           " BufRead - on reading
 autocmd BufNewFile,BufRead * exec ":call SettingsForFile()"
 func SettingsForFile()
-    "                       " highlight for lcs
-    highlight SpecialKey term=reverse ctermbg=1 guibg=DarkRed
+  "                       " highlight for lcs
+  highlight SpecialKey term=reverse ctermbg=1 guibg=DarkRed
+  " on FILES
+  set autoindent              " keeps the same level as current line start
+  set smartindent             " making it smarter
+  set shiftwidth=2
+  set softtabstop=2
+  set tabstop=2
 
-    let web = ['javascript', 'html', 'htmldjango', 'css']
+  " let web = ['javascript', 'html', 'htmldjango', 'css']
 
-    if &filetype == 'python'
-        "                   " python3 | pydoc
-        set keywordprg=pydoc3
-    elseif index(web, &filetype) != -1
-        set tabstop=2
-        set softtabstop=2
-        set shiftwidth=2
-    endif
+  if &filetype == 'python'
+    "                   " python3 | pydoc
+    set keywordprg=pydoc3
+  " elseif index(web, &filetype) != -1
+  "     set tabstop=2
+  "     set softtabstop=2
+  "     set shiftwidth=2
+  " elseif &filetype == 'javascript'
+  "   syntax on             " syntax highlighting
+  endif
 endfunc
 
 set smarttab                " omg
@@ -93,34 +95,40 @@ set expandtab               " replaces tab with spaces
 autocmd BufNewFile *.sh,*.py,*txt exec ":call TitleForFile()"
 "                           https://github.com/ma6174/vim/
 func TitleForFile()
-    if &filetype == 'sh'
-        call setline(1,"\#!/bin/bash")
-        call append(line("."), "")
-        call append(line(".")+1, "")
-
-    elseif &filetype == 'python'
-        call setline(1,"#!/usr/bin/env python3")
-        call append(line("."),"# -*- coding: utf-8 -*-")
-        call append(line(".")+1,"")
-        call append(line(".")+2,"")
-
-    elseif &filetype == 'text'
-        " SEE:
-        " https://vi.stackexchange.com/questions/17704/how-to-remove-character-returned-by-system
-        call setline(1,"; author: <" . substitute(system("git config --global user.name"), '\n', '', 'g') . ">")
-        call append(line("."), "; c_date: " . strftime('%Y-%m-%d'))
-        call append(line(".")+1,"")
-    endif
+  if &filetype == 'sh'
+    call setline(1,"\#!/bin/bash")
+    call append(line("."), "")
+    call append(line(".")+1, "")
+  elseif &filetype == 'python'
+    call setline(1,"#!/usr/bin/env python3")
+    call append(line("."),"# -*- coding: utf-8 -*-")
+    call append(line(".")+1,"")
+    call append(line(".")+2,"")
+  elseif &filetype == 'text'
+    " SEE:
+    " https://vi.stackexchange.com/questions/17704/how-to-remove-character-returned-by-system
+    call setline(1,"; author: <" . substitute(system("git config --global user.name"), '\n', '', 'g') . ">")
+    call append(line("."), "; c_date: " . strftime('%Y-%m-%d'))
+    call append(line(".")+1,"")
+  endif
 endfunc
 
 "                           " go down after writing title
 autocmd BufNewFile * normal G
 
 
-color PaperColor
+" Enable true color 启用终端24位色
+if exists('+termguicolors')
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+  set termguicolors
+endif
 
-syntax on                   " syntax highlighting
 
+let g:sonokai_style = 'shusia'
+
+" color sonokai
+color delek
 
 " ======================= Plugin Config ========================= "
 
@@ -128,7 +136,7 @@ syntax on                   " syntax highlighting
 let g:NERDSpaceDelims = 1   " Spase after adding comment symbol
 "                           " python adding it by syntax, so adding default
 let g:NERDCustomDelimiters = {
-    \'python': { 'left': '#', 'right': '' }
+    \'python': { 'left': '#', 'right': '' },
     \}
 "                           " Align line-wise comment delimiters flush left instead of following code indentation
 let g:NERDDefaultAlign = 'left'
@@ -145,6 +153,11 @@ let g:tagbar_left = 1
 let g:tagbar_width = 30
 
 
+" VIM-JSX-IMPROVE
+" let g:jsx_improve_javascriptreact = 0
+" g:jsx_improve_motion_disable = 1
+
+
 " FZF
 let g:fzf_layout = {'down': '30%'}
 "                            " github files
@@ -159,7 +172,7 @@ let g:indentLine_char = ':'
 
 " ACK + AG
 if executable('ag')
-    let g:ackprg = 'ag --vimgrep'
+  let g:ackprg = 'ag --vimgrep'
 endif
 
 
@@ -169,3 +182,12 @@ vmap <Leader>s :SlimuxREPLSendSelection<CR>
 map <Leader>b :SlimuxREPLSendBuffer<CR>
 map <Leader>a :SlimuxShellLast<CR>
 map <Leader>k :SlimuxSendKeysLast<CR>
+
+
+" SEE: https://stackoverflow.com/a/2585673
+
+function YTC() range
+  echo system('echo '.shellescape(join(getline(a:firstline, a:lastline), "\n")).'| xclip -selection clipboard')
+endfunction
+
+com -range=% -nargs=0 Ytc <line1>,<line2>call YTC()
