@@ -10,3 +10,15 @@
 > color-schema  -> Kali-Dark
 > transparency  -> 5 %
 ```
+
+
+File Structure
+```
+- work
+    - prod :: tiny
+    - dev  :: extend
+- personal
+    - prod :: tiny
+    - dev  :: extend
+        - os
+```
